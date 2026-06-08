@@ -1,8 +1,12 @@
 <?php
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\CommentController;
+use App\Http\Controllers\TagController;
 
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');
+Route::apiResource('articles', ArticleController::class);
+Route::apiResource('tags', TagController::class);
+
+Route::get('articles/{article}/comments', [CommentController::class, 'index']);
+Route::post('articles/{article}/comments', [CommentController::class, 'store']);
+Route::delete('articles/{article}/comments/{comment}', [CommentController::class, 'destroy']);
