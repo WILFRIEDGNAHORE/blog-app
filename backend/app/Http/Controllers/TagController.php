@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreTagRequest;
 use App\Models\Tag;
-use Illuminate\Http\Request;
 
 class TagController extends Controller
 {
@@ -12,13 +12,9 @@ class TagController extends Controller
         return response()->json(Tag::withCount('articles')->get());
     }
 
-    public function store(Request $request)
+    public function store(StoreTagRequest $request)
     {
-        $request->validate([
-            'name' => 'required|string|max:255|unique:tags,name',
-        ]);
-
-        $tag = Tag::create(['name' => $request->name]);
+        $tag = Tag::create($request->validated());
 
         return response()->json($tag, 201);
     }

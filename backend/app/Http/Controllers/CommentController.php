@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreCommentRequest;
 use App\Models\Article;
 use App\Models\Comment;
-use Illuminate\Http\Request;
 
 class CommentController extends Controller
 {
@@ -13,15 +13,11 @@ class CommentController extends Controller
         return response()->json($article->comments()->with('user')->get());
     }
 
-    public function store(Request $request, Article $article)
+    public function store(StoreCommentRequest $request, Article $article)
     {
-        $request->validate([
-            'content' => 'required|string',
-        ]);
-
         $comment = $article->comments()->create([
             'user_id' => 1,
-            'content' => $request->content,
+            'content' => $request->validated('content'),
         ]);
 
         return response()->json($comment->load('user'), 201);
