@@ -8,7 +8,11 @@ RUN apt-get update && apt-get install -y \
     zip \
     curl \
     libzip-dev \
-    && docker-php-ext-install pdo pdo_mysql zip
+    libpng-dev \
+    libjpeg-dev \
+    libfreetype6-dev \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install pdo pdo_mysql zip gd
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 

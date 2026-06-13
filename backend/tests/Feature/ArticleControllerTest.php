@@ -6,6 +6,8 @@ use App\Models\Article;
 use App\Models\Tag;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\Testing\File;
+use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
 class ArticleControllerTest extends TestCase
@@ -171,5 +173,23 @@ class ArticleControllerTest extends TestCase
 
         $response->assertStatus(204);
         $this->assertDatabaseMissing('articles', ['id' => $article->id]);
+    }
+
+    public function test_can_create_article_with_image(): void
+    {
+        Storage::fake('public');
+
+        $file = File::image('photo.jpg');
+
+        $response = $this->postJson('/api/articles', [
+            'title' => 'Article avec image',
+            'content' => 'Contenu',
+            'image' => $file,
+        ]);
+
+        $response->assertStatus(201);
+
+        $article = Article::first();
+        Storage::disk('public')->assertExists($article->image);
     }
 }

@@ -17,6 +17,7 @@ class UpdateArticleRequest extends FormRequest
             'title' => 'sometimes|string|max:255',
             'content' => 'sometimes|string',
             'status' => 'sometimes|in:draft,published',
+            'image' => 'sometimes|image|mimes:jpeg,png,jpg,webp|max:2048',
             'tags' => 'sometimes|array',
             'tags.*' => 'exists:tags,id',
         ];
