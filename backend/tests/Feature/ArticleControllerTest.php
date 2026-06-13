@@ -120,7 +120,7 @@ class ArticleControllerTest extends TestCase
             'status' => 'draft',
         ]);
 
-        $response = $this->putJson("/api/articles/{$article->id}", [
+        $response = $this->actingAs($this->user)->putJson("/api/articles/{$article->id}", [
             'status' => 'published',
         ]);
 
@@ -144,7 +144,7 @@ class ArticleControllerTest extends TestCase
 
         $newTag = Tag::create(['name' => 'React']);
 
-        $response = $this->putJson("/api/articles/{$article->id}", [
+        $response = $this->actingAs($this->user)->putJson("/api/articles/{$article->id}", [
             'tags' => [$newTag->id],
         ]);
 
@@ -169,7 +169,7 @@ class ArticleControllerTest extends TestCase
             'status' => 'draft',
         ]);
 
-        $response = $this->deleteJson("/api/articles/{$article->id}");
+        $response = $this->actingAs($this->user)->deleteJson("/api/articles/{$article->id}");
 
         $response->assertStatus(204);
         $this->assertDatabaseMissing('articles', ['id' => $article->id]);
@@ -181,7 +181,7 @@ class ArticleControllerTest extends TestCase
 
         $file = File::image('photo.jpg');
 
-        $response = $this->postJson('/api/articles', [
+        $response = $this->actingAs($this->user)->postJson('/api/articles', [
             'title' => 'Article avec image',
             'content' => 'Contenu',
             'image' => $file,

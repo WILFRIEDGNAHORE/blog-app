@@ -47,6 +47,7 @@ class ArticleController extends Controller
 
     public function update(UpdateArticleRequest $request, Article $article)
     {
+        $this->authorize('update', $article);
         if ($request->has('title')) {
             $article->slug = Str::slug($request->validated('title'));
         }
@@ -69,6 +70,7 @@ class ArticleController extends Controller
 
     public function destroy(Article $article)
     {
+        $this->authorize('delete', $article);
         if ($article->image) {
             Storage::disk('public')->delete($article->image);
         }
