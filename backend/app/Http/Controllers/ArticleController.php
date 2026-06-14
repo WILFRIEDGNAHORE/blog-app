@@ -22,7 +22,7 @@ class ArticleController extends Controller
     {
         $article = $this->articleService->create(
             data: [
-                'user_id' => 1,
+                'user_id' => auth()->id() ?? 1,
                 'title' => $request->validated('title'),
                 'content' => $request->validated('content'),
                 'status' => $request->validated('status'),

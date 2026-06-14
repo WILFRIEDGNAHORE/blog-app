@@ -16,7 +16,7 @@ class CommentController extends Controller
     public function store(StoreCommentRequest $request, Article $article)
     {
         $comment = $article->comments()->create([
-            'user_id' => 1,
+            'user_id' => auth()->id() ?? 1,
             'content' => $request->validated('content'),
         ]);
 
