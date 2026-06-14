@@ -53,7 +53,7 @@ class CommentControllerTest extends TestCase
 
     public function test_can_create_comment(): void
     {
-        $response = $this->postJson("/api/articles/{$this->article->id}/comments", [
+        $response = $this->actingAs($this->user)->postJson("/api/articles/{$this->article->id}/comments", [
             'content' => 'Super article !',
         ]);
 

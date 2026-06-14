@@ -58,7 +58,7 @@ class ArticleControllerTest extends TestCase
 
     public function test_can_create_article(): void
     {
-        $response = $this->postJson('/api/articles', [
+        $response = $this->actingAs($this->user)->postJson('/api/articles', [
             'title' => 'Mon article',
             'content' => 'Contenu de larticle',
             'status' => 'draft',
